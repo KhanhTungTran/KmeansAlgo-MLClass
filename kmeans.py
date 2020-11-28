@@ -13,7 +13,7 @@ class Kmeans():
         return centers
 
     def assign_center(self, X):
-        labels = np.zeros((self.n), dtype=int)
+        labels = np.zeros((X.shape[0]), dtype=int)
         i = 0
         for point in X:
             # Sử dụng khoảng cách Euclide:
@@ -27,7 +27,6 @@ class Kmeans():
         new_centers = np.zeros((self.k, X.shape[1]))
         i = 0
         for label in self.labels:
-            # print(label[0])
             center_lengths[label] += 1
             new_centers[label] += X[i]
             i += 1
