@@ -19,9 +19,17 @@ class Kmeans():
 
         return labels
 
-
     def compute_centers(self, X):
-        pass
+        center_lengths = np.zeros((self.k, 1))
+        new_centers = np.zeros((self.k, X.shape[1]))
+        i = 0
+        for label in self.labels:
+            center_lengths[label] += 1
+            new_centers[label] += X[i]
+            i += 1
+        
+        return new_centers/center_lengths
+            
 
     def compute_errors(self, X):
         pass
