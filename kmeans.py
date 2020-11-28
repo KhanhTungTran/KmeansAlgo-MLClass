@@ -6,8 +6,11 @@ class Kmeans():
         self.max_iters = max_iters
     
     # TODO: hiện thực nhiều kĩ thuật khởi tạo khác nhau 
-    def init_centers(self):
-        pass
+    def init_centers(self, X):
+        np.random.RandomState(123456789)
+        random_idx = np.random.permutation(X.shape[0])
+        centers = X[random_idx[:self.n_clusters]]
+        return centers
 
     def assign_center(self, X):
         labels = np.zeros((self.k, 1))
@@ -31,7 +34,7 @@ class Kmeans():
         return new_centers/center_lengths
             
 
-    def compute_errors(self, X):
+    def compute_error(self, X):
         error = 0
         for i in range(len(X)):
             error += np.linalg.norm(X[i] - self.centers[self.labels[i]])
@@ -43,7 +46,7 @@ class Kmeans():
 
         # Lặp, mỗi lần lặp thực hiện gán nhãn (gán center) cho các điểm dữ liệu 
         # Và tính toán centers mới dựa trên bộ nhãn đó
-        for i in range(self.max_iters):
+        for _ in range(self.max_iters):
             self.labels = self.assign_center(X)
             new_centers = self.compute_centers(X)
             
@@ -53,7 +56,7 @@ class Kmeans():
             
             self.centers = new_centers
 
-        self.sum_squared_deviations = self.compute_errors(X)
+        self.sum_squared_deviations = self.compute_error(X)
 
-    def predict(self):
-        pass
+    def predict(self, X):
+        return np.argmin(np.linalg.norm(self.centers - X, axis = 1))
