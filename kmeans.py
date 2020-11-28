@@ -9,9 +9,7 @@ class Kmeans():
     def init_centers(self, X):
         np.random.RandomState(123456789)
         random_idx = np.random.permutation(X.shape[0])
-        # print(random_idx[:self.k])
         centers = X[random_idx[:self.k]]
-        # print(centers)
         return centers
 
     def assign_center(self, X):
@@ -25,8 +23,8 @@ class Kmeans():
         return labels
 
     def compute_centers(self, X):
-        center_lengths = np.zeros((self.n,1), dtype=int)
-        new_centers = np.zeros((self.n, X.shape[1]))
+        center_lengths = np.zeros((self.k,1), dtype=int)
+        new_centers = np.zeros((self.k, X.shape[1]))
         i = 0
         for label in self.labels:
             # print(label[0])
