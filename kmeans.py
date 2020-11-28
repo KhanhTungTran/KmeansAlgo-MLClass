@@ -32,8 +32,12 @@ class Kmeans():
             
 
     def compute_errors(self, X):
-        pass
-    
+        error = 0
+        for i in range(len(X)):
+            error += np.linalg.norm(X[i] - self.centers[self.labels[i]])
+
+        return error
+
     def fit(self, X):
         self.centers = self.init_centers(X) # centers là list của k center/cluster
 
