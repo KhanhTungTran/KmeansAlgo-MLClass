@@ -2,7 +2,7 @@ import numpy as np
 from kmeans import Kmeans
 import matplotlib.pyplot as plt
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 
 plt.style.use('fivethirtyeight')
@@ -22,7 +22,7 @@ plt.title('Visualization of raw data');
 plt.show()
 
 # Chuẩn hóa dữ liệu
-X_std = StandardScaler().fit_transform(df)
+X_std = MinMaxScaler().fit_transform(df)
 # Plot
 plt.figure(figsize=(6, 6))
 plt.scatter(X_std[:, 0], X_std[:, 1])
@@ -38,7 +38,6 @@ km.fit(X_std)
 
 centers = km.centers
 labels = km.labels
-print(labels)
 print(centers)
 
 # Plot

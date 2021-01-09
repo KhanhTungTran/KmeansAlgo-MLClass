@@ -13,14 +13,18 @@ class Kmeans():
         centers = X[random_idx[:self.k]]
         return centers
 
+    # Khởi tạo theo kiểu aldaoud:
     def init_centers_aldaoud(self, X):
-        max_variance_idx = -1
-        max_variance = 0
-        for i in range(X.shape[1]):
-            variance = np.var(X, axis = i)
-            if variance > max_variance:
-                max_variance = variance
-                max_variance_idx = i
+        centers = []
+        vars = np.var(X, axis = 0)
+        max_variance_idx = np.argmax(vars)
+        X = X[X[:, max_variance_idx].argsort()]
+        batch_size = int(self.n/self.k)
+
+        for start in range(0, self.n, batch_size):
+            end = min(start + batch_size, self.n)
+            centers.append(np.median(X[start:end, :], axis = 0))
+        return centers
 
     def assign_center(self, X):
         labels = np.zeros((X.shape[0]), dtype=int)
@@ -52,14 +56,15 @@ class Kmeans():
 
     def fit(self, X):
         self.n = X.shape[0]
-        self.centers = self.init_centers(X) # centers là list của k center/cluster
+        self.centers = self.init_centers_random(X) # centers là list của k center/cluster
 
         # Lặp, mỗi lần lặp thực hiện gán nhãn (gán center) cho các điểm dữ liệu 
         # Và tính toán centers mới dựa trên bộ nhãn đó
         for _ in range(self.max_iter):
             self.labels = self.assign_center(X)
             new_centers = self.compute_centers(X)
-            
+            self.sum_squared_deviations = self.compute_error(X)
+            print(self.sum_squared_deviations)
             # Điều kiện dừng:
             if np.all(new_centers == self.centers):
                 break
@@ -67,6 +72,7 @@ class Kmeans():
             self.centers = new_centers
 
         self.sum_squared_deviations = self.compute_error(X)
+        print(self.sum_squared_deviations)
 
     def predict(self, X):
         return self.assign_center(X)
