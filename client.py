@@ -23,6 +23,14 @@ plt.show()
 
 # Chuẩn hóa dữ liệu
 X_std = StandardScaler().fit_transform(df)
+# Plot
+plt.figure(figsize=(6, 6))
+plt.scatter(X_std[:, 0], X_std[:, 1])
+plt.xlabel('Eruption time in mins')
+plt.ylabel('Waiting time to next eruption')
+plt.title('Visualization of preprocessed data');
+
+plt.show()
 
 # Chạy Kmeans
 km = Kmeans(num_clusters=2, max_iter=100)

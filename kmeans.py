@@ -33,7 +33,6 @@ class Kmeans():
         
         return new_centers/center_lengths
             
-
     def compute_error(self, X):
         error = 0
         for i in range(len(X)):
