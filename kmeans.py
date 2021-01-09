@@ -1,16 +1,26 @@
 import numpy as np
+from numpy.core.fromnumeric import var
 
 class Kmeans():
     def __init__(self, num_clusters, max_iter):
         self.k = num_clusters
         self.max_iter = max_iter
     
-    # TODO: hiện thực nhiều kĩ thuật khởi tạo khác nhau 
-    def init_centers(self, X):
+    # Khởi tạo theo kiểu ngẫu nhiên:
+    def init_centers_random(self, X):
         np.random.RandomState(123456789)
         random_idx = np.random.permutation(X.shape[0])
         centers = X[random_idx[:self.k]]
         return centers
+
+    def init_centers_aldaoud(self, X):
+        max_variance_idx = -1
+        max_variance = 0
+        for i in range(X.shape[1]):
+            variance = np.var(X, axis = i)
+            if variance > max_variance:
+                max_variance = variance
+                max_variance_idx = i
 
     def assign_center(self, X):
         labels = np.zeros((X.shape[0]), dtype=int)
